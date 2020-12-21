@@ -54,7 +54,7 @@ class TestLogin(unittest.TestCase):
             self.run_test_case(test_case)
 
     @classmethod
-    def tearDownClass(self):
+    def tearDownClass(cls):
         browser.quit()
 
 
