@@ -5,25 +5,25 @@ import time
 DRIVER_LOCATION = '/usr/bin/chromedriver'
 JOBSEEKR_URL = 'http://localhost:8001/'
 TEST_CASES = [
-        {
-            'email': 'a@a.com',
-            'password': '',
-            'types': ['password'],
-            'msg': 'Failed to assert that password is required'
-        },
-        {
-            'email': '',
-            'password': '123456',
-            'types': ['email'],
-            'msg': 'Failed to assert that email is required'
-        },
-        {
-            'email': '',
-            'password': '',
-            'types': ['email', 'password'],
-            'msg': 'Failed to assert that email and password is required'
-        },
-    ]
+    {
+        'email': 'a@a.com',
+        'password': '',
+        'types': ['password'],
+        'msg': 'Failed to assert that password is required'
+    },
+    {
+        'email': '',
+        'password': '123456',
+        'types': ['email'],
+        'msg': 'Failed to assert that email is required'
+    },
+    {
+        'email': '',
+        'password': '',
+        'types': ['email', 'password'],
+        'msg': 'Failed to assert that email and password is required'
+    },
+]
 
 
 class TestLogin(unittest.TestCase):
