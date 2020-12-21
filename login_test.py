@@ -54,6 +54,10 @@ class TestLogin(unittest.TestCase):
         for test_case in TEST_CASES:
             self.run_test_case(test_case)
 
+    @classmethod
+    def tearDownClass(self):
+        browser.quit()
+
 
 if __name__ == '__main__':
     browser = webdriver.Chrome(DRIVER_LOCATION)
