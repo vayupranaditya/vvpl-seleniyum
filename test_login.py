@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import StaleElementReferenceException
 import unittest
 import time
 
@@ -8,21 +9,27 @@ TEST_CASES = [
     {
         'email': 'a@a.com',
         'password': '',
-        'types': ['password'],
+        'results': ['password'],
         'msg': 'Failed to assert that password is required'
     },
     {
         'email': '',
         'password': '123456',
-        'types': ['email'],
+        'results': ['email'],
         'msg': 'Failed to assert that email is required'
     },
     {
         'email': '',
         'password': '',
-        'types': ['email', 'password'],
+        'results': ['email', 'password'],
         'msg': 'Failed to assert that email and password is required'
     },
+    {
+        'email': 'a@a.com',
+        'password': '123456',
+        'results': [f'{JOBSEEKR_URL}home'],
+        'msg': 'Failed to assert that all fields has been filled'
+    }
 ]
 
 
@@ -40,13 +47,20 @@ class TestLogin(unittest.TestCase):
 
     def run_test_case(self, test_case):
         login_form = self.login(test_case['email'], test_case['password'])
-        invalids = login_form.find_elements_by_css_selector('input:invalid')
-        actual_types = [invalid.get_attribute('type') for invalid in invalids]
-        self.assertTrue(
-            len(invalids) == len(test_case['types']) and actual_types == test_case['types'],
-            test_case['msg']
-        )
-        browser.refresh()
+        try:
+            invalids = login_form.find_elements_by_css_selector('input:invalid')
+            actual_types = [invalid.get_attribute('type') for invalid in invalids]
+            self.assertTrue(
+                len(invalids) == len(test_case['results']) and actual_types == test_case['results'],
+                test_case['msg']
+            )
+            browser.refresh()
+        except StaleElementReferenceException:
+            self.assertEqual(
+                browser.current_url,
+                test_case['results'][0],
+                test_case['msg']
+            )
 
 
     def test_required_entries_filled(self):
