@@ -42,9 +42,8 @@ class TestLogin(unittest.TestCase):
         login_form = self.login(test_case['email'], test_case['password'])
         invalids = login_form.find_elements_by_css_selector('input:invalid')
         actual_types = [invalid.get_attribute('type') for invalid in invalids]
-        self.assertEqual(
+        self.assertTrue(
             len(invalids) == len(test_case['types']) and actual_types == test_case['types'],
-            True,
             test_case['msg']
         )
         browser.refresh()
